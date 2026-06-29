@@ -1,12 +1,140 @@
-// 9섹션 빌더 — F3 · 8단계에서 구현
+import { useMemo, useState } from 'react';
+import {
+  DndContext,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from '@dnd-kit/core';
+import { sections } from '@/data/sections';
+import { missions } from '@/data/missions';
+import { scoreBuilder, toGrade } from '@/lib/scoring';
+import { useGameStore } from '@/store/gameStore';
+import MissionPanel from '@/components/MissionPanel';
+import Hand from '@/components/Hand';
+import SectionSlot from '@/components/SectionSlot';
+import ResultModal from '@/components/ResultModal';
+
+type Placements = Record<string, string | null>;
+
+const emptyPlacements = (): Placements =>
+  Object.fromEntries(sections.map((s) => [s.id, null]));
+
+// F3 — 9섹션 빌더 (todo 8단계)
 export default function Builder() {
+  const saveRound = useGameStore((s) => s.saveRound);
+  const [missionIdx, setMissionIdx] = useState(0);
+  const [placements, setPlacements] = useState<Placements>(emptyPlacements);
+  const [selected, setSelected] = useState<string | null>(null);
+  const [result, setResult] = useState<{ score: number } | null>(null);
+
+  const mission = missions[missionIdx];
+  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }));
+
+  const placedCount = useMemo(
+    () => Object.values(placements).filter(Boolean).length,
+    [placements]
+  );
+
+  const assign = (sectionId: string, cardId: string) => {
+    setPlacements((p) => ({ ...p, [sectionId]: cardId }));
+    setSelected(null);
+  };
+
+  const onDragEnd = (e: DragEndEvent) => {
+    const sectionId = e.over?.id as string | undefined;
+    const cardId = e.active.id as string;
+    if (sectionId && cardId) assign(sectionId, cardId);
+  };
+
+  // 탭 배치: 카드 선택 후 슬롯 탭 → 배치 / 채워진 슬롯 탭 → 해제
+  const onSlotTap = (sectionId: string) => {
+    if (selected) {
+      assign(sectionId, selected);
+    } else if (placements[sectionId]) {
+      setPlacements((p) => ({ ...p, [sectionId]: null }));
+    }
+  };
+
+  const complete = () => {
+    const placementArr = sections.map((s) => ({
+      sectionId: s.id,
+      placedCardId: placements[s.id],
+    }));
+    const score = scoreBuilder(placementArr, sections);
+    saveRound({
+      mode: 'builder',
+      score,
+      grade: toGrade(score),
+      detail: Object.fromEntries(
+        sections.map((s) => [
+          s.id,
+          Boolean(placements[s.id] && s.recommendedCardIds.includes(placements[s.id]!)),
+        ])
+      ),
+      attempts: [],
+      completedAt: Date.now(),
+    });
+    setResult({ score });
+  };
+
+  const nextMission = () => {
+    setResult(null);
+    setPlacements(emptyPlacements());
+    setSelected(null);
+    setMissionIdx((i) => (i + 1) % missions.length);
+  };
+
   return (
-    <section className="color-block bg-block-lime">
-      <p className="eyebrow text-ink/60">F3 · 8단계에서 구현</p>
-      <h1 className="mt-xs text-display-lg font-340">9섹션 빌더</h1>
-      <p className="mt-sm text-body font-320 text-ink/80">
-        이 화면은 todo.md의 단계에서 구현됩니다. 현재는 라우팅 스켈레톤입니다.
-      </p>
-    </section>
+    <DndContext sensors={sensors} onDragEnd={onDragEnd}>
+      <div className="flex flex-col gap-lg">
+        <header className="flex flex-col gap-xs">
+          <p className="eyebrow text-ink/60">9-SECTION BUILDER</p>
+          <h1 className="text-display-lg font-340">9섹션 빌더</h1>
+          <p className="text-body-sm font-330 text-ink/60">
+            ✍️ 손글씨 넛지 — 1번 후킹 헤드라인은 손으로도 적어보면 더 깊이 새겨집니다.
+          </p>
+        </header>
+
+        <MissionPanel mission={mission} />
+
+        {/* 9섹션 보드 */}
+        <div className="grid gap-xs sm:grid-cols-2 lg:grid-cols-3">
+          {sections.map((s) => (
+            <SectionSlot
+              key={s.id}
+              section={s}
+              placedCardId={placements[s.id]}
+              onTap={() => onSlotTap(s.id)}
+            />
+          ))}
+        </div>
+
+        <Hand selectedId={selected} onSelect={(id) => setSelected((cur) => (cur === id ? null : id))} />
+
+        <div className="sticky bottom-0 flex items-center gap-sm border-t border-hairline-soft bg-canvas py-sm">
+          <p className="caption text-ink/50">배치 {placedCount}/9</p>
+          <button
+            type="button"
+            disabled={placedCount === 0}
+            onClick={complete}
+            className="btn-primary ml-auto disabled:opacity-40"
+          >
+            카피 완성
+          </button>
+        </div>
+      </div>
+
+      {result && (
+        <ResultModal
+          score={result.score}
+          grade={toGrade(result.score)}
+          sections={sections}
+          placements={placements}
+          onClose={() => setResult(null)}
+          onRetry={nextMission}
+        />
+      )}
+    </DndContext>
   );
 }

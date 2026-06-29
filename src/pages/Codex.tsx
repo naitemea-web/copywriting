@@ -1,12 +1,166 @@
-// 카드 도감 — F1 · 6단계에서 구현
+import { useMemo, useState } from 'react';
+import type { Stage, TechniqueCard } from '@/types';
+import { techniqueCards } from '@/data/techniqueCards';
+import { STAGE_META, STAGE_ORDER } from '@/lib/stage';
+import { useGameStore } from '@/store/gameStore';
+import Card from '@/components/Card';
+
+type Filter = Stage | 'all';
+
+// F1 — 카드 도감 + 인출 (todo 6단계)
 export default function Codex() {
+  const [filter, setFilter] = useState<Filter>('all');
+  const [recallMode, setRecallMode] = useState(false);
+
+  const cards = useMemo(
+    () => (filter === 'all' ? techniqueCards : techniqueCards.filter((c) => c.stage === filter)),
+    [filter]
+  );
+
   return (
-    <section className="color-block bg-block-lilac">
-      <p className="eyebrow text-ink/60">F1 · 6단계에서 구현</p>
-      <h1 className="mt-xs text-display-lg font-340">카드 도감</h1>
-      <p className="mt-sm text-body font-320 text-ink/80">
-        이 화면은 todo.md의 단계에서 구현됩니다. 현재는 라우팅 스켈레톤입니다.
-      </p>
-    </section>
+    <div className="flex flex-col gap-xl">
+      <header className="flex flex-col gap-sm">
+        <p className="eyebrow text-ink/60">CARD CODEX · 기법 카드 12장</p>
+        <h1 className="text-display-lg font-340">카드 도감</h1>
+        <p className="max-w-2xl text-body font-320 text-ink/80">
+          7가지 심리 버튼 + 후킹 5무기. 카드를 본 뒤엔{' '}
+          <strong className="font-540">덮고 떠올리기</strong>로 인출하세요 — 다시 읽기는 기억에 거의
+          남지 않습니다.
+        </p>
+      </header>
+
+      {/* stage 필터 */}
+      <div className="flex flex-wrap items-center gap-xs">
+        <FilterPill active={filter === 'all'} onClick={() => setFilter('all')}>
+          전체
+        </FilterPill>
+        {STAGE_ORDER.map((s) => (
+          <FilterPill key={s} active={filter === s} onClick={() => setFilter(s)}>
+            {STAGE_META[s].label}
+          </FilterPill>
+        ))}
+        <button type="button" onClick={() => setRecallMode(true)} className="btn-primary ml-auto">
+          덮고 떠올리기 ({cards.length})
+        </button>
+      </div>
+
+      <div className="grid grid-cols-2 gap-md sm:grid-cols-3 lg:grid-cols-4">
+        {cards.map((card) => (
+          <Card key={card.id} card={card} />
+        ))}
+      </div>
+
+      {recallMode && <RecallSession cards={cards} onClose={() => setRecallMode(false)} />}
+    </div>
+  );
+}
+
+function FilterPill({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`min-h-[44px] rounded-pill px-md text-body-sm font-480 transition-colors ${
+        active ? 'bg-primary text-inverse-ink' : 'border border-hairline bg-canvas text-ink'
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
+
+// ① 덮고 떠올리기 — 정답(이름)을 가리고 단서만 보여준 뒤 스스로 떠올리게 한다.
+function RecallSession({ cards, onClose }: { cards: TechniqueCard[]; onClose: () => void }) {
+  const applyAttempt = useGameStore((s) => s.applyAttempt);
+  const [idx, setIdx] = useState(0);
+  const [revealed, setRevealed] = useState(false);
+  const [done, setDone] = useState(0);
+
+  const card = cards[idx];
+  const stage = STAGE_META[card.stage];
+
+  const grade = (correct: boolean) => {
+    applyAttempt({
+      itemId: card.id,
+      confidence: correct ? 3 : 1,
+      correct,
+      overconfident: false,
+      attemptedAt: Date.now(),
+    });
+    const next = idx + 1;
+    setDone((d) => d + 1);
+    if (next >= cards.length) {
+      onClose();
+      return;
+    }
+    setIdx(next);
+    setRevealed(false);
+  };
+
+  return (
+    <div className="fixed inset-0 z-20 flex items-center justify-center bg-primary/60 p-lg">
+      <div className="w-full max-w-md rounded-lg bg-canvas p-xl">
+        <div className="flex items-center justify-between">
+          <p className="caption text-ink/50">
+            덮고 떠올리기 {done + 1}/{cards.length}
+          </p>
+          <button type="button" onClick={onClose} className="caption text-ink/50">
+            닫기 ✕
+          </button>
+        </div>
+
+        <span
+          className={`caption mt-md inline-block rounded-pill px-sm py-xxs ${stage.chip} ${stage.text}`}
+        >
+          {stage.label} · {card.category === 'hook' ? '후킹 무기' : '심리 버튼'}
+        </span>
+
+        <p className="mt-lg caption text-ink/50">이 카피가 쓰는 기법의 이름은?</p>
+        <p className="mt-xs text-headline font-540 leading-snug">"{card.example}"</p>
+
+        {!revealed ? (
+          <button
+            type="button"
+            onClick={() => setRevealed(true)}
+            className="btn-primary mt-xl w-full"
+          >
+            떠올렸어요 — 정답 보기
+          </button>
+        ) : (
+          <div className="mt-xl flex flex-col gap-sm">
+            <div className="rounded-md bg-surface-soft p-md">
+              <p className="text-card-title font-700">{card.name}</p>
+              <p className="mt-xxs text-body-sm font-330 text-ink/70">
+                {card.principle} · {card.tip}
+              </p>
+            </div>
+            <div className="flex gap-xs">
+              <button
+                type="button"
+                onClick={() => grade(false)}
+                className="min-h-[44px] flex-1 rounded-pill border border-hairline text-body-sm font-480 text-semantic-danger"
+              >
+                못 떠올림
+              </button>
+              <button
+                type="button"
+                onClick={() => grade(true)}
+                className="min-h-[44px] flex-1 rounded-pill bg-primary text-body-sm font-480 text-inverse-ink"
+              >
+                떠올림 ✓
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
