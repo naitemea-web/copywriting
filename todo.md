@@ -75,7 +75,7 @@
 - [~] 인출 게이트 ①⭐: `Codex`(덮고 떠올리기)·`Quiz`(백지 인출)에 인라인 구현(별도 `RecallStep.tsx` 대신). 추후 공통 컴포넌트로 추출 가능
 - [x] `components/ConfidenceMeter.tsx` ⑦: 확신도 1~4 선택 UI
 - [x] `components/ResultModal.tsx`: 점수/등급 + 모범 카피 + 보정 리포트 표시
-- [ ] `components/ReviewNudge.tsx` ⑤: "자고 내일 복습" 세션 종료 넛지 (9·10단계에서)
+- [x] `components/ReviewNudge.tsx` ⑤: "자고 내일 복습" 세션 종료 넛지
 - [x] 공통 레이아웃/헤더(App.tsx), 즉각 피드백 색상(정답=초록/오답=빨강)
 
 **DoD**: RecallStep이 인출 전 정답을 절대 노출하지 않음(게이트 동작). 컴포넌트가 Storybook 없이도 페이지에서 조립 가능.
@@ -127,11 +127,11 @@
 ## 9단계 — F5 오늘의 복습 (분산 SRS) + 홈 (M4) ②⭐
 > 목표: 망각 직전 카드 재등장 — MVP 완성점.
 
-- [ ] `pages/Review.tsx`: `getDueCards()`로 due 카드 큐 구성 → 인출 → `updateMastery` 박스 이동
-- [ ] `pages/Home.tsx`: "오늘 복습할 카드 N장" 배지 + 연속일(streak) + 추천 모드
-- [ ] 복습 큐 소진 시 보상/완료 표시
-- [ ] 날짜 변경(자정) 기준 due 재계산 검증(localStorage 날짜 비교)
-- [ ] 🧪 due 산정·박스 이동 시나리오 테스트
+- [x] `pages/Review.tsx`: `getDueCards()`로 due 카드 큐 구성 → 인출 → `updateMastery` 박스 이동
+- [x] `pages/Home.tsx`: "오늘 복습할 카드 N장" 배지 + 연속일(streak) + 추천 모드
+- [x] 복습 큐 소진 시 보상/완료 표시
+- [x] 날짜 변경(자정) 기준 due 재계산 검증(localStorage 날짜 비교)
+- [x] 🧪 due 산정·박스 이동 시나리오 테스트
 
 **DoD(=MVP DoD)**: F1~F5 동작 + 백지 인출 루프 + Leitner 복습 큐가 실제로 돌고, 새로고침/날짜경과 후 due가 정확.
 
@@ -164,7 +164,7 @@
 | 6 | F1 카드 도감+인출 | M1 | ✅ |
 | 7 | F2 인출 퀴즈 + F4 보정 | M2 | ✅ |
 | 8 | F3 9섹션 빌더 | M3 | ✅ |
-| 9 | F5 오늘의 복습(SRS) | M4 | ✅ (MVP 완성) |
+| 9 | F5 오늘의 복습(SRS) | M4 | ✅ **(MVP 완성 — DoD 충족)** |
 | 10 | F6·F7·F9 + 폴리시·배포 | M5 | 권장 |
 
 > **검증 우선순위(학습 과학 핵심):** 3단계(로직)와 5단계(RecallStep 게이트)가 게임의 차별점.
