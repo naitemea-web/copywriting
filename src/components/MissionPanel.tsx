@@ -17,8 +17,8 @@ export default function MissionPanel({ mission }: { mission: MissionCard }) {
       <dl className="mt-md grid gap-x-lg gap-y-xs sm:grid-cols-2">
         {rows.map(([k, v]) => (
           <div key={k} className="flex flex-col">
-            <dt className="caption text-ink/50">{k}</dt>
-            <dd className="text-body-sm font-330">{v}</dd>
+            <dt className="caption text-ink/65">{k}</dt>
+            <dd className="text-body-sm font-400">{v}</dd>
           </div>
         ))}
       </dl>

@@ -45,31 +45,31 @@ export default function Card({ card, flipped, onFlip }: CardProps) {
             </span>
           </div>
           <div className="mt-auto">
-            <p className="caption text-ink/50">
+            <p className="caption text-ink/65">
               {card.category === 'hook' ? '후킹 무기' : '심리 버튼'}
             </p>
             <h3 className="mt-xxs text-card-title font-700">{card.name}</h3>
-            <p className="mt-xxs text-body-sm font-330 text-ink/70">{card.principle}</p>
+            <p className="mt-xxs text-body-sm font-400 text-ink/70">{card.principle}</p>
           </div>
-          <p className="caption mt-md text-ink/40">탭하여 뒤집기 →</p>
+          <p className="caption mt-md text-ink/60">탭하여 뒤집기 →</p>
         </div>
 
         {/* 뒷면 */}
         <div className="absolute inset-0 flex flex-col gap-xs rounded-lg border border-hairline bg-surface-soft p-lg text-left [backface-visibility:hidden] [transform:rotateY(180deg)]">
-          <p className="caption text-ink/50">예시 카피</p>
+          <p className="caption text-ink/65">예시 카피</p>
           <p className="text-body-sm font-540 leading-snug">"{card.example}"</p>
           <div className="mt-auto flex flex-col gap-xxs">
-            <p className="text-body-sm font-330">
-              <span className="text-ink/50">효과 </span>
+            <p className="text-body-sm font-400">
+              <span className="text-ink/65">효과 </span>
               {card.effect}
             </p>
             {card.position && (
-              <p className="text-body-sm font-330">
-                <span className="text-ink/50">적용 </span>
+              <p className="text-body-sm font-400">
+                <span className="text-ink/65">적용 </span>
                 {card.position}
               </p>
             )}
-            <p className="text-body-sm font-330 text-ink/70">💡 {card.tip}</p>
+            <p className="text-body-sm font-400 text-ink/70">💡 {card.tip}</p>
           </div>
         </div>
       </motion.div>

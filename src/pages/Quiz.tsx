@@ -104,14 +104,14 @@ export default function Quiz() {
             {mode === 'block' ? '블록 학습' : '혼합 출제'}
           </span>
         </div>
-        <p className="caption text-ink/50">
+        <p className="caption text-ink/65">
           {idx + 1} / {questions.length}
         </p>
       </header>
 
       {/* 제시: 예시 카피 */}
       <div className="color-block bg-block-coral">
-        <p className="caption text-ink/60">이 카피가 쓰는 기법은?</p>
+        <p className="caption text-ink/60">이 카피에 쓰인 기법은 무엇일까요?</p>
         <p className="mt-sm text-headline font-540 leading-snug">"{q.prompt}"</p>
       </div>
 
@@ -119,13 +119,13 @@ export default function Quiz() {
       {phase === 'recall' && (
         <div className="flex flex-col gap-md rounded-lg border border-hairline p-lg">
           <label className="flex flex-col gap-xs">
-            <span className="caption text-ink/50">먼저 떠올려 적어보세요 (보기는 그 다음)</span>
+            <span className="caption text-ink/65">보기를 보기 전에, 먼저 떠올려서 적어 보세요</span>
             <textarea
               value={recalled}
               onChange={(e) => setRecalled(e.target.value)}
               rows={2}
               placeholder="예: 호기심? 손실 회피?"
-              className="w-full rounded-md border border-hairline p-sm text-body font-320 focus:border-primary"
+              className="w-full rounded-md border border-hairline p-sm text-body font-400 focus:border-primary"
             />
           </label>
           <ConfidenceMeter value={confidence} onChange={setConfidence} />
@@ -135,7 +135,7 @@ export default function Quiz() {
             onClick={() => setPhase('choose')}
             className="btn-primary w-full disabled:opacity-40"
           >
-            보기 확인하기
+            보기 보고 정답 고르기
           </button>
         </div>
       )}
@@ -159,7 +159,7 @@ export default function Quiz() {
                   type="button"
                   onClick={() => choose(cardId)}
                   disabled={phase === 'feedback'}
-                  className={`min-h-[56px] rounded-md border p-md text-left text-body font-480 transition-colors ${cls}`}
+                  className={`min-h-[56px] rounded-md border p-md text-left text-body font-500 transition-colors ${cls}`}
                 >
                   {card.icon} {card.name}
                 </button>
@@ -203,10 +203,10 @@ function Feedback({
       </p>
       {overconfident && (
         <p className="rounded-md bg-block-pink p-sm text-body-sm font-540 text-ink">
-          ⚠️ 착각 경고 — 확신했지만 틀렸습니다. 이 카드를 우선 복습합니다.
+          ⚠️ ‘안다고 착각’했어요 — 확신했는데 틀렸네요. 이 카드는 복습에서 먼저 보여드릴게요.
         </p>
       )}
-      <p className="text-body font-320 text-ink/80">
+      <p className="text-body font-400 text-ink/80">
         정답: <strong className="font-540">{cardById[q.answerCardId].name}</strong> — {q.explanation}
       </p>
       <button type="button" onClick={onNext} className="btn-primary w-full">
@@ -226,32 +226,32 @@ function Result({ attempts, onRetry }: { attempts: RecallAttempt[]; onRetry: () 
     <div className="flex flex-col gap-lg">
       <div className="color-block bg-block-navy text-inverse-ink">
         <p className="caption text-inverse-ink/70">QUIZ RESULT</p>
-        <p className="mt-sm text-display-xl font-340 leading-none">{grade}</p>
-        <p className="mt-xs text-body-lg font-330">
+        <p className="mt-sm text-display-xl font-500 leading-none">{grade}</p>
+        <p className="mt-xs text-body-lg font-400">
           {correct}/{attempts.length} 정답 · {score}점
         </p>
       </div>
 
       <div className="rounded-lg border border-hairline p-lg">
-        <p className="caption text-ink/50">확신도 보정 리포트</p>
-        <ul className="mt-sm flex flex-col gap-xs text-body font-320">
+        <p className="caption text-ink/65">확신 점검 결과</p>
+        <ul className="mt-sm flex flex-col gap-xs text-body font-400">
           <li>
-            ⚠️ 과신(확신했지만 오답): <strong className="font-540">{cal.overconfident}건</strong>
+            ⚠️ 과신 (확신했는데 틀림): <strong className="font-540">{cal.overconfident}건</strong>
           </li>
           <li>
-            💡 과소(자신없었지만 정답): <strong className="font-540">{cal.underconfident}건</strong>
+            💡 과소 (자신 없었는데 맞음): <strong className="font-540">{cal.underconfident}건</strong>
           </li>
           <li>
-            🎯 보정 정확도: <strong className="font-540">{Math.round(cal.accuracy * 100)}%</strong>
+            🎯 확신 적중률: <strong className="font-540">{Math.round(cal.accuracy * 100)}%</strong>
           </li>
         </ul>
-        <p className="mt-sm text-body-sm font-330 text-ink/60">
-          "쉽게 느껴지면 의심하라" — 과신 카드는 복습 큐에서 먼저 만납니다.
+        <p className="mt-sm text-body-sm font-400 text-ink/60">
+          쉽게 느껴질수록 의심하세요. 확신했다가 틀린 카드는 복습에서 먼저 보여드려요.
         </p>
       </div>
 
       <button type="button" onClick={onRetry} className="btn-primary w-full">
-        새 세트 풀기
+        새 문제 풀기
       </button>
     </div>
   );

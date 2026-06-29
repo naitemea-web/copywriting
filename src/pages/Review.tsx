@@ -34,11 +34,11 @@ export default function Review() {
       <div className="flex flex-col gap-lg">
         <div className="color-block bg-block-mint">
           <p className="caption text-ink/60">REVIEW COMPLETE</p>
-          <p className="mt-sm text-display-lg font-340">
-            {remembered}/{queue.length} 떠올림
+          <p className="mt-sm text-display-lg font-500">
+            {remembered}/{queue.length}장 기억해냈어요
           </p>
-          <p className="mt-xs text-body font-330 text-ink/80">
-            맞힌 카드는 더 긴 간격으로, 놓친 카드는 곧 다시 만납니다.
+          <p className="mt-xs text-body font-400 text-ink/80">
+            기억해낸 카드는 더 나중에, 놓친 카드는 곧 다시 보여드려요.
           </p>
         </div>
         <ReviewNudge />
@@ -82,7 +82,7 @@ export default function Review() {
     <div className="flex flex-col gap-lg">
       <header className="flex items-center justify-between">
         <p className="eyebrow text-ink/60">SPACED REVIEW</p>
-        <p className="caption text-ink/50">
+        <p className="caption text-ink/65">
           {idx + 1} / {queue.length}
         </p>
       </header>
@@ -93,34 +93,34 @@ export default function Review() {
         >
           {stage.label} · {card.category === 'hook' ? '후킹 무기' : '심리 버튼'}
         </span>
-        <p className="mt-md caption text-ink/60">이 카피가 쓰는 기법의 이름은?</p>
+        <p className="mt-md caption text-ink/60">이 카피에 쓰인 기법은 무엇일까요?</p>
         <p className="mt-xs text-headline font-540 leading-snug">"{card.example}"</p>
       </div>
 
       {!revealed ? (
         <button type="button" onClick={() => setRevealed(true)} className="btn-primary w-full">
-          떠올렸어요 — 정답 보기
+          다 떠올렸어요, 정답 보기
         </button>
       ) : (
         <div className="flex flex-col gap-sm rounded-lg border border-hairline p-lg">
           <p className="text-card-title font-700">{card.name}</p>
-          <p className="text-body-sm font-330 text-ink/70">
+          <p className="text-body-sm font-400 text-ink/70">
             {card.principle} · 💡 {card.tip}
           </p>
           <div className="mt-xs flex gap-xs">
             <button
               type="button"
               onClick={() => grade(false)}
-              className="min-h-[44px] flex-1 rounded-pill border border-hairline text-body-sm font-480 text-semantic-danger"
+              className="min-h-[44px] flex-1 rounded-pill border border-hairline text-body-sm font-500 text-semantic-danger"
             >
-              못 떠올림
+              기억 안 나요
             </button>
             <button
               type="button"
               onClick={() => grade(true)}
-              className="min-h-[44px] flex-1 rounded-pill bg-primary text-body-sm font-480 text-inverse-ink"
+              className="min-h-[44px] flex-1 rounded-pill bg-primary text-body-sm font-500 text-inverse-ink"
             >
-              떠올림 ✓
+              기억났어요 ✓
             </button>
           </div>
         </div>
@@ -141,10 +141,10 @@ function EmptyQueue() {
     <div className="flex flex-col gap-lg">
       <div className="color-block bg-block-mint">
         <p className="caption text-ink/60">ALL CAUGHT UP</p>
-        <p className="mt-sm text-display-lg font-340">오늘 복습 끝! 🎉</p>
-        <p className="mt-xs text-body font-330 text-ink/80">
-          다음 복습은 <strong className="font-540">{when}</strong>. 망각이 시작될 즈음 다시 띄워
-          드릴게요.
+        <p className="mt-sm text-display-lg font-500">오늘 복습 끝! 🎉</p>
+        <p className="mt-xs text-body font-400 text-ink/80">
+          다음 복습은 <strong className="font-700">{when}</strong>예요. 잊어버릴 때쯤 다시
+          알려드릴게요.
         </p>
       </div>
       <div className="flex flex-wrap gap-xs">

@@ -50,8 +50,15 @@ export default {
         section: '96px',
       },
       fontFamily: {
-        // figmaSans → Inter / figmaMono → JetBrains Mono (오픈소스 대체)
-        sans: ['Inter', 'system-ui', 'helvetica', 'sans-serif'],
+        // 한글 가시성을 위해 Pretendard 우선, 영문은 Inter, 그 외 시스템 한글 폰트로 폴백
+        sans: [
+          'Pretendard',
+          'Inter',
+          'system-ui',
+          '"Apple SD Gothic Neo"',
+          '"Malgun Gothic"',
+          'sans-serif',
+        ],
         mono: ['"JetBrains Mono"', '"SF Mono"', 'menlo', 'monospace'],
       },
       fontSize: {
@@ -70,9 +77,11 @@ export default {
         caption: ['12px', { lineHeight: '1.0', letterSpacing: '0.60px' }],
       },
       fontWeight: {
-        // figmaSans의 미세 weight 축 — 이 집합 밖 값은 사용 금지
+        // 한글 가시성을 위해 표준 weight 사용
         320: '320',
         400: '400',
+        500: '500',
+        600: '600',
         330: '330',
         340: '340',
         450: '450',

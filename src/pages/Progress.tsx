@@ -32,7 +32,7 @@ export default function Progress() {
     <div className="flex flex-col gap-xl">
       <header className="flex flex-col gap-sm">
         <p className="eyebrow text-ink/60">MY PROGRESS</p>
-        <h1 className="text-display-lg font-340">내 기록</h1>
+        <h1 className="text-display-lg font-500">내 기록</h1>
       </header>
 
       {/* 요약 스탯 */}
@@ -45,11 +45,11 @@ export default function Progress() {
 
       {/* 숙련도 박스 분포 */}
       <section className="rounded-lg border border-hairline p-lg">
-        <p className="caption text-ink/50">숙련도 분포 (Leitner 박스 · 높을수록 장기 기억)</p>
+        <p className="caption text-ink/65">기억 단계별 카드 수 (단계가 높을수록 더 오래 기억해요)</p>
         <div className="mt-md flex flex-col gap-xs">
           {boxes.map((n, i) => (
             <div key={i} className="flex items-center gap-sm">
-              <span className="caption w-16 text-ink/50">박스 {i + 1}</span>
+              <span className="caption w-16 text-ink/65">{i + 1}단계</span>
               <div className="h-4 flex-1 overflow-hidden rounded-pill bg-surface-soft">
                 <div
                   className="h-full rounded-pill bg-primary"
@@ -64,21 +64,21 @@ export default function Progress() {
 
       {/* 확신도 보정 */}
       <section className="rounded-lg border border-hairline p-lg">
-        <p className="caption text-ink/50">확신도 보정 (누적)</p>
-        <ul className="mt-sm flex flex-col gap-xs text-body font-320">
+        <p className="caption text-ink/65">확신 점검 (누적)</p>
+        <ul className="mt-sm flex flex-col gap-xs text-body font-400">
           <li>
             ⚠️ 과신: <strong className="font-540">{cal.overconfident}건</strong> · 💡 과소:{' '}
             <strong className="font-540">{cal.underconfident}건</strong>
           </li>
           <li>
-            🎯 보정 정확도: <strong className="font-540">{Math.round(cal.accuracy * 100)}%</strong>
+            🎯 확신 적중률: <strong className="font-540">{Math.round(cal.accuracy * 100)}%</strong>
           </li>
         </ul>
       </section>
 
       {/* 배지 */}
       <section className="flex flex-col gap-sm">
-        <p className="caption text-ink/50">배지 ({unlockedBadges.length}/{BADGES.length})</p>
+        <p className="caption text-ink/65">배지 ({unlockedBadges.length}/{BADGES.length})</p>
         <div className="grid gap-xs sm:grid-cols-2">
           {BADGES.map((b) => {
             const earned = unlockedBadges.includes(b.id);
@@ -108,7 +108,7 @@ export default function Progress() {
           onClick={() => {
             if (confirm('모든 학습 기록을 초기화할까요?')) resetProgress();
           }}
-          className="caption ml-auto text-ink/40 underline"
+          className="caption ml-auto text-ink/60 underline"
         >
           기록 초기화
         </button>

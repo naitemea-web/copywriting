@@ -34,7 +34,7 @@ export default function App() {
               key={n.to}
               to={n.to}
               className={({ isActive }) =>
-                `whitespace-nowrap text-body-sm font-330 ${
+                `whitespace-nowrap text-body-sm font-400 ${
                   isActive ? 'font-540 text-ink' : 'text-ink/70'
                 }`
               }
@@ -44,7 +44,7 @@ export default function App() {
           ))}
         </nav>
         {pacing.minutes > 0 && (
-          <span className="caption hidden shrink-0 text-ink/40 sm:inline">
+          <span className="caption hidden shrink-0 text-ink/60 sm:inline">
             세션 {pacing.minutes}분
           </span>
         )}
@@ -53,8 +53,8 @@ export default function App() {
       {/* ⑤ 세션 페이싱 넛지 — 12분 초과 시 */}
       {pacing.showNudge && (
         <div className="flex items-center gap-sm bg-block-lilac px-lg py-sm">
-          <p className="text-body-sm font-480">
-            🌙 {pacing.minutes}분째 집중 중! 한 세트만 더 마치고 쉬면 기억에 더 잘 남아요.
+          <p className="text-body-sm font-500">
+            🌙 {pacing.minutes}분째 집중하고 있어요. 한 세트만 더 하고 쉬면 기억에 더 잘 남아요.
           </p>
           <button
             type="button"

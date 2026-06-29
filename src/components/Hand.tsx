@@ -12,7 +12,7 @@ interface HandProps {
 export default function Hand({ selectedId, onSelect }: HandProps) {
   return (
     <div className="flex flex-col gap-sm">
-      <p className="caption text-ink/50">기법 카드 — 드래그하거나, 탭해서 고른 뒤 섹션을 탭하세요</p>
+      <p className="caption text-ink/65">카드를 끌어다 놓거나, 카드를 탭해서 고른 뒤 섹션을 탭하세요</p>
       <div className="grid grid-cols-2 gap-xs sm:grid-cols-3 lg:grid-cols-4">
         {techniqueCards.map((card) => (
           <HandCard

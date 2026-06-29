@@ -21,11 +21,11 @@ export default function Codex() {
     <div className="flex flex-col gap-xl">
       <header className="flex flex-col gap-sm">
         <p className="eyebrow text-ink/60">CARD CODEX · 기법 카드 12장</p>
-        <h1 className="text-display-lg font-340">카드 도감</h1>
-        <p className="max-w-2xl text-body font-320 text-ink/80">
-          7가지 심리 버튼 + 후킹 5무기. 카드를 본 뒤엔{' '}
-          <strong className="font-540">덮고 떠올리기</strong>로 인출하세요 — 다시 읽기는 기억에 거의
-          남지 않습니다.
+        <h1 className="text-display-lg font-500">카드 도감</h1>
+        <p className="max-w-2xl text-body font-400 text-ink/80">
+          심리 버튼 7개 + 후킹 무기 5개. 카드를 본 다음엔{' '}
+          <strong className="font-700">‘덮고 떠올리기’</strong>로 직접 떠올려 보세요. 눈으로 다시
+          읽기만 하면 기억에 잘 남지 않아요.
         </p>
       </header>
 
@@ -68,7 +68,7 @@ function FilterPill({
     <button
       type="button"
       onClick={onClick}
-      className={`min-h-[44px] rounded-pill px-md text-body-sm font-480 transition-colors ${
+      className={`min-h-[44px] rounded-pill px-md text-body-sm font-500 transition-colors ${
         active ? 'bg-primary text-inverse-ink' : 'border border-hairline bg-canvas text-ink'
       }`}
     >
@@ -109,10 +109,10 @@ function RecallSession({ cards, onClose }: { cards: TechniqueCard[]; onClose: ()
     <div className="fixed inset-0 z-20 flex items-center justify-center bg-primary/60 p-lg">
       <div className="w-full max-w-md rounded-lg bg-canvas p-xl">
         <div className="flex items-center justify-between">
-          <p className="caption text-ink/50">
+          <p className="caption text-ink/65">
             덮고 떠올리기 {done + 1}/{cards.length}
           </p>
-          <button type="button" onClick={onClose} className="caption text-ink/50">
+          <button type="button" onClick={onClose} className="caption text-ink/65">
             닫기 ✕
           </button>
         </div>
@@ -123,7 +123,7 @@ function RecallSession({ cards, onClose }: { cards: TechniqueCard[]; onClose: ()
           {stage.label} · {card.category === 'hook' ? '후킹 무기' : '심리 버튼'}
         </span>
 
-        <p className="mt-lg caption text-ink/50">이 카피가 쓰는 기법의 이름은?</p>
+        <p className="mt-lg caption text-ink/65">이 카피에 쓰인 기법은 무엇일까요?</p>
         <p className="mt-xs text-headline font-540 leading-snug">"{card.example}"</p>
 
         {!revealed ? (
@@ -132,13 +132,13 @@ function RecallSession({ cards, onClose }: { cards: TechniqueCard[]; onClose: ()
             onClick={() => setRevealed(true)}
             className="btn-primary mt-xl w-full"
           >
-            떠올렸어요 — 정답 보기
+            다 떠올렸어요, 정답 보기
           </button>
         ) : (
           <div className="mt-xl flex flex-col gap-sm">
             <div className="rounded-md bg-surface-soft p-md">
               <p className="text-card-title font-700">{card.name}</p>
-              <p className="mt-xxs text-body-sm font-330 text-ink/70">
+              <p className="mt-xxs text-body-sm font-400 text-ink/70">
                 {card.principle} · {card.tip}
               </p>
             </div>
@@ -146,16 +146,16 @@ function RecallSession({ cards, onClose }: { cards: TechniqueCard[]; onClose: ()
               <button
                 type="button"
                 onClick={() => grade(false)}
-                className="min-h-[44px] flex-1 rounded-pill border border-hairline text-body-sm font-480 text-semantic-danger"
+                className="min-h-[44px] flex-1 rounded-pill border border-hairline text-body-sm font-500 text-semantic-danger"
               >
-                못 떠올림
+                기억 안 나요
               </button>
               <button
                 type="button"
                 onClick={() => grade(true)}
-                className="min-h-[44px] flex-1 rounded-pill bg-primary text-body-sm font-480 text-inverse-ink"
+                className="min-h-[44px] flex-1 rounded-pill bg-primary text-body-sm font-500 text-inverse-ink"
               >
-                떠올림 ✓
+                기억났어요 ✓
               </button>
             </div>
           </div>

@@ -12,7 +12,7 @@ interface ResultModalProps {
   onRetry: () => void;
 }
 
-// 빌더 결과 — 점수/등급 + 섹션별 ✓/✗ + 모범 카피 + 완성 미리보기.
+// 빌더 결과 — 점수/등급 + 섹션별 ✓/✗ + 모범 카피 + 완성본 미리보기.
 export default function ResultModal({
   score,
   grade,
@@ -28,8 +28,8 @@ export default function ResultModal({
       <div className="mx-auto my-section flex w-full max-w-2xl flex-col gap-lg rounded-lg bg-canvas p-xl">
         <div className="color-block bg-block-navy text-inverse-ink">
           <p className="caption text-inverse-ink/70">BUILDER RESULT</p>
-          <p className="mt-sm text-display-xl font-340 leading-none">{grade}</p>
-          <p className="mt-xs text-body-lg font-330">{score}점 / 100</p>
+          <p className="mt-sm text-display-xl font-500 leading-none">{grade}</p>
+          <p className="mt-xs text-body-lg font-400">{score}점 / 100</p>
         </div>
 
         <ul className="flex flex-col gap-xs">
@@ -47,11 +47,11 @@ export default function ResultModal({
                 <div className="flex flex-col">
                   <p className="text-body-sm font-540">
                     {s.order}. {s.name}
-                    <span className="ml-xs font-330 text-ink/50">
-                      {placed ? `→ ${cardById[placed].name}` : '→ 미배치'}
+                    <span className="ml-xs font-400 text-ink/65">
+                      {placed ? `→ ${cardById[placed].name}` : '→ 안 놓음'}
                     </span>
                   </p>
-                  <p className="mt-xxs text-body-sm font-330 text-ink/70">모범: "{s.modelCopy}"</p>
+                  <p className="mt-xxs text-body-sm font-400 text-ink/70">모범: "{s.modelCopy}"</p>
                 </div>
               </li>
             );
@@ -66,10 +66,10 @@ export default function ResultModal({
             onClick={() => setShowPreview((v) => !v)}
             className="btn-secondary border border-hairline"
           >
-            {showPreview ? '미리보기 닫기' : '완성 미리보기'}
+            {showPreview ? '미리보기 닫기' : '완성본 미리보기'}
           </button>
           <button type="button" onClick={onRetry} className="btn-secondary border border-hairline">
-            다른 미션
+            다른 미션 도전
           </button>
           <button type="button" onClick={onClose} className="btn-primary ml-auto">
             닫기

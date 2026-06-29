@@ -90,9 +90,9 @@ export default function Builder() {
       <div className="flex flex-col gap-lg">
         <header className="flex flex-col gap-xs">
           <p className="eyebrow text-ink/60">9-SECTION BUILDER</p>
-          <h1 className="text-display-lg font-340">9섹션 빌더</h1>
-          <p className="text-body-sm font-330 text-ink/60">
-            ✍️ 손글씨 넛지 — 1번 후킹 헤드라인은 손으로도 적어보면 더 깊이 새겨집니다.
+          <h1 className="text-display-lg font-500">9섹션 빌더</h1>
+          <p className="text-body-sm font-400 text-ink/60">
+            ✍️ 1번 후킹 문구는 손으로도 적어 보면 더 오래 기억에 남아요.
           </p>
         </header>
 
@@ -113,14 +113,14 @@ export default function Builder() {
         <Hand selectedId={selected} onSelect={(id) => setSelected((cur) => (cur === id ? null : id))} />
 
         <div className="sticky bottom-0 flex items-center gap-sm border-t border-hairline-soft bg-canvas py-sm">
-          <p className="caption text-ink/50">배치 {placedCount}/9</p>
+          <p className="caption text-ink/65">{placedCount}/9칸 채움</p>
           <button
             type="button"
             disabled={placedCount === 0}
             onClick={complete}
             className="btn-primary ml-auto disabled:opacity-40"
           >
-            카피 완성
+            완성하고 채점받기
           </button>
         </div>
       </div>
