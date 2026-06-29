@@ -42,3 +42,6 @@ vite.config.d.ts
 
 # screenshot output
 screenshots/
+
+dist-single
+카피마스터-MVP.html
