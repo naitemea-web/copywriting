@@ -1,0 +1,52 @@
+/* 디자인 토큰의 단일 출처는 design.md / tailwind.config.js. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300..700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-canvas text-ink font-sans;
+    font-feature-settings: 'kern' 1;
+    /* Inter는 x-height가 높아 line-height를 ~0.02 낮춰 보정 (design.md 참고) */
+  }
+
+  /* 접근성: 키보드 포커스 링은 채움 변경이 아니라 ring으로 표현 */
+  :focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-canvas;
+  }
+}
+
+@layer components {
+  /* 모든 텍스트 CTA는 pill, 모든 아이콘 버튼은 원형 (design.md Do's) */
+  .btn-primary {
+    @apply inline-flex min-h-[44px] items-center justify-center rounded-pill bg-primary px-lg py-xs text-button font-480 text-inverse-ink transition-transform active:scale-[0.98];
+  }
+
+  .btn-secondary {
+    @apply inline-flex min-h-[44px] items-center justify-center rounded-pill bg-canvas px-lg py-xs text-button font-480 text-ink transition-transform active:scale-[0.98];
+  }
+
+  .eyebrow {
+    @apply font-mono text-eyebrow font-400 uppercase;
+  }
+
+  .caption {
+    @apply font-mono text-caption font-400 uppercase;
+  }
+
+  /* 시그니처 컬러블록: full content width, rounded-lg, xxl 내부 패딩 */
+  .color-block {
+    @apply w-full rounded-lg p-xxl;
+  }
+}

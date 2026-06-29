@@ -1,0 +1,97 @@
+import type { FrameworkSection } from '@/types';
+
+// 9섹션 프레임워크. modelCopy는 미션1(온라인 영어회화) 기준 예시.
+// 출처: 「카피라이팅 바이블」 (spec.md §2.4)
+export const sections: FrameworkSection[] = [
+  {
+    order: 1,
+    id: 'hook',
+    name: '후킹',
+    goal: '3초 안에 멈춰 세우기',
+    stage: 'attention',
+    recommendedCardIds: [
+      'hook_number',
+      'hook_reverse',
+      'hook_pain',
+      'hook_mystery',
+      'hook_expert',
+      'curiosity',
+      'orienting',
+    ],
+    modelCopy: '아직도 영어 단어 외우세요? 10년 공부해도 한마디 못 한다면 보세요.',
+  },
+  {
+    order: 2,
+    id: 'problem',
+    name: '문제 제기',
+    goal: '문제 인식시키기',
+    stage: 'trust',
+    recommendedCardIds: ['hook_pain', 'orienting'],
+    modelCopy: '학원 다닐 시간은 없고, 전화영어는 부담스럽죠.',
+  },
+  {
+    order: 3,
+    id: 'empathy',
+    name: '공감',
+    goal: '신뢰 구축',
+    stage: 'trust',
+    recommendedCardIds: ['social_proof'],
+    modelCopy: '저도 토익 900점인데 외국인 앞에서 입이 안 떨어졌습니다.',
+  },
+  {
+    order: 4,
+    id: 'solution',
+    name: '솔루션',
+    goal: '해결책 제시 (FAB)',
+    stage: 'value',
+    recommendedCardIds: ['framing'],
+    modelCopy: "이 책의 '3단 패턴 공식'이면 중학교 단어로도 외국인과 프리토킹.",
+  },
+  {
+    order: 5,
+    id: 'evidence',
+    name: '증거',
+    goal: '신뢰 확보',
+    stage: 'trust',
+    recommendedCardIds: ['social_proof', 'authority'],
+    modelCopy: '수강생 1,423명, 3개월 내 프리토킹 성공률 82%.',
+  },
+  {
+    order: 6,
+    id: 'offer',
+    name: '오퍼',
+    goal: '거절할 수 없는 제안',
+    stage: 'value',
+    recommendedCardIds: ['anchoring', 'framing'],
+    modelCopy: '정상가 180,000원 → 오픈 특가 39,000원 + 1:1 첨삭 보너스.',
+  },
+  {
+    order: 7,
+    id: 'objection',
+    name: '반론 처리',
+    goal: '저항 제거',
+    stage: 'action',
+    recommendedCardIds: ['authority', 'social_proof'],
+    modelCopy: '"나는 안 될 것 같다고요?" 왕초보 합격 후기 200건을 보세요.',
+  },
+  {
+    order: 8,
+    id: 'urgency',
+    name: '긴급성',
+    goal: '미루는 습관 끊기',
+    stage: 'action',
+    recommendedCardIds: ['loss_aversion'],
+    modelCopy: '선착순 100분 마감 후 특가는 사라지고 정상가로 돌아갑니다.',
+  },
+  {
+    order: 9,
+    id: 'cta',
+    name: 'CTA',
+    goal: '명확한 행동 지시',
+    stage: 'action',
+    recommendedCardIds: ['loss_aversion'],
+    modelCopy: '지금 아래 버튼을 눌러 무료체험을 신청하세요.',
+  },
+];
+
+export const sectionById = Object.fromEntries(sections.map((s) => [s.id, s]));
