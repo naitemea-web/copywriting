@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
 import type { Confidence, QuizQuestion, RecallAttempt } from '@/types';
 import { quizQuestions } from '@/data/quizQuestions';
-import { cardById } from '@/data/techniqueCards';
-import { shuffle } from '@/lib/deck';
+import { cardById, techniqueCards } from '@/data/techniqueCards';
+import { buildDeck, categoryAccuracy, deckMode, shuffle } from '@/lib/deck';
 import { isOverconfident, calibrationReport } from '@/lib/calibration';
 import { toGrade } from '@/lib/scoring';
 import { useGameStore } from '@/store/gameStore';
@@ -17,7 +17,17 @@ export default function Quiz() {
   const saveRound = useGameStore((s) => s.saveRound);
 
   const [seed, setSeed] = useState(1);
-  const questions = useMemo(() => shuffle(quizQuestions, seed).slice(0, SET_SIZE), [seed]);
+  // ③ 적응형 덱 — 카테고리 정답률로 블록→혼합 순서 결정 (세션 시작 시 mastery 스냅샷)
+  const [mastery] = useState(() => useGameStore.getState().mastery);
+  const accuracy = useMemo(() => categoryAccuracy(mastery, techniqueCards), [mastery]);
+  const mode = deckMode(accuracy);
+  const questions = useMemo(() => {
+    const deck = buildDeck(techniqueCards, accuracy, seed);
+    const order = new Map(deck.map((c, i) => [c.id, i]));
+    return [...quizQuestions]
+      .sort((a, b) => (order.get(a.answerCardId) ?? 99) - (order.get(b.answerCardId) ?? 99))
+      .slice(0, SET_SIZE);
+  }, [accuracy, seed]);
 
   const [idx, setIdx] = useState(0);
   const [phase, setPhase] = useState<Phase>('recall');
@@ -88,7 +98,12 @@ export default function Quiz() {
   return (
     <div className="flex flex-col gap-lg">
       <header className="flex items-center justify-between">
-        <p className="eyebrow text-ink/60">RETRIEVAL QUIZ</p>
+        <div className="flex items-center gap-xs">
+          <p className="eyebrow text-ink/60">RETRIEVAL QUIZ</p>
+          <span className="caption rounded-pill bg-surface-soft px-sm py-xxs text-ink/60">
+            {mode === 'block' ? '블록 학습' : '혼합 출제'}
+          </span>
+        </div>
         <p className="caption text-ink/50">
           {idx + 1} / {questions.length}
         </p>
